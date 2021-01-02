@@ -1,0 +1,46 @@
+import EnvironmentVariable from './EnvironmentVariable.ts'
+
+import decodeEnvFile from './decodeEnvFile.ts'
+
+const module = await import(Deno.args[0])
+const expectedVars: EnvironmentVariable[] = module.default
+
+const decoder = new TextDecoder('utf-8')
+const actualVars = decoder.decode(await Deno.readFile(Deno.args[1]))
+
+const actualKeyValues = decodeEnvFile(actualVars)
+
+let outFile = ''
+for (const v of expectedVars) {
+  let varValue: string | null = null
+  if (typeof v !== 'string') {
+    varValue = actualKeyValues[v.name]
+
+    if (!varValue && v.isRequired) {
+      console.error('Expected a variable in .env named:', v.name)
+      Deno.exit(1)
+    }
+
+    if (v.validator && !v.validator(varValue)) {
+      console.error(
+        `Value of ${v.name} (${varValue}) did not match the expected pattern.`
+      )
+      Deno.exit(1)
+    }
+  } else {
+  }
+
+  const varName = typeof v !== 'string' ? v.name : v
+
+  let value = varValue ? `"${varValue}"` : undefined
+
+  outFile += `const ${varName} = ${value}\n`
+}
+const varNames = expectedVars.map((v) => (typeof v !== 'string' ? v.name : v))
+outFile += `export { ${varNames.join(', ')} }`
+
+console.log(outFile)
+
+const encoder = new TextEncoder()
+
+await Deno.writeFile(Deno.args[2], encoder.encode(outFile))

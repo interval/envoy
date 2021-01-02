@@ -1,0 +1,13 @@
+{
+  "name": "iv-env",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "compile": "tsc src/index.ts && node src/index.js",
+    "demo": "tsc demo/app.ts"
+  },
+  "dependencies": {
+    "ts-node": "^9.0.0"
+  }
+}
