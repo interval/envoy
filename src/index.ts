@@ -65,6 +65,7 @@ async function generate() {
 
   let outFile = ''
   for (const v of expectedVars) {
+    const varName = typeof v !== 'string' ? v.name : v
     let varValue: string | null = null
     if (typeof v !== 'string') {
       varValue = actualKeyValues[v.name]
@@ -83,9 +84,8 @@ async function generate() {
         process.exit(1)
       }
     } else {
+      varValue = actualKeyValues[varName]
     }
-
-    const varName = typeof v !== 'string' ? v.name : v
 
     let value = varValue ? `"${varValue}"` : undefined
 
