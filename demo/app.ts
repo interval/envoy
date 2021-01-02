@@ -1,5 +1,5 @@
-// import * as env from './.env'
+import * as env from './.env'
 
-// console.log(env.STRIPE_KEY)
+console.log(env.STRIPE_KEY)
 
 console.log('yo')
