@@ -31,7 +31,7 @@ const ENV_FILE_PATH = process.argv[3] || path.join(process.cwd(), '.env')
 
 console.log('.env file:\t\t', ENV_FILE_PATH)
 
-const OUTPUT_FILE_NAME = '.env.ts'
+const OUTPUT_FILE_NAME = 'env.ts'
 
 const OUTPUT_FILE_PATH =
   process.argv[4] || path.join(process.cwd(), OUTPUT_FILE_NAME)
