@@ -23,7 +23,7 @@ console.log('\n🕵️  Welcome to Envoy!\n')
 
 console.log('Running with the following values...')
 const ENVOY_CONFIG_PATH =
-  process.argv[2] || path.join(process.cwd(), 'envoy.config.js')
+  process.argv[2] || path.join(process.cwd(), 'envoy.config.ts')
 
 console.log('envoy.config.ts:\t', ENVOY_CONFIG_PATH)
 
