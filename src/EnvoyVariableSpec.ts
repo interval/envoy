@@ -1,9 +1,9 @@
-interface EnvironmentVariable {
+interface EnvoyVariableSpec {
   name: string
   validator?: (value: string) => boolean
   isRequired?: boolean
 }
 
-type VarInfo = EnvironmentVariable | string
+type VarInfo = EnvoyVariableSpec | string
 
 export default VarInfo

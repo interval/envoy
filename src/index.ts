@@ -1,4 +1,4 @@
-import EnvironmentVariable from './EnvironmentVariable'
+import EnvoyVariableSpec from './EnvoyVariableSpec'
 import decodeEnvFile from './decodeEnvFile'
 import {
   readFile as readFileCallback,
@@ -48,7 +48,7 @@ if (!existsSync(ENV_FILE_PATH)) {
 async function importExpected() {
   try {
     const module = require(ENVOY_CONFIG_PATH)
-    const expectedVars: EnvironmentVariable[] = module
+    const expectedVars: EnvoyVariableSpec[] = module
     return expectedVars
   } catch (e) {
     console.error(e)
@@ -105,3 +105,5 @@ generate()
     console.error(e)
     process.exit(1)
   })
+
+export { EnvoyVariableSpec }
