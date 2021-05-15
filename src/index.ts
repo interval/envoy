@@ -8,6 +8,8 @@ import {
 import path from 'path'
 import { promisify } from 'util'
 
+require('ts-node/register')
+
 const readFile = promisify(readFileCallback)
 const writeFile = promisify(writeFileCallback)
 
@@ -48,12 +50,19 @@ if (!existsSync(ENV_FILE_PATH)) {
 async function importExpected() {
   try {
     const module = require(ENVOY_CONFIG_PATH)
-    const expectedVars: EnvoyVariableSpec[] = module
+    const expectedVars: EnvoyVariableSpec[] = module.default
     return expectedVars
   } catch (e) {
     console.error(e)
     throw new Error('Could not find or load secrets file')
   }
+}
+
+function failOnMissing(name: string) {
+  console.error('❗️ Expected a variable in .env named:', name)
+  console.error('Envoy could not create your env.ts file.')
+  console.error()
+  process.exit(1)
 }
 
 async function generate() {
@@ -70,11 +79,8 @@ async function generate() {
     if (typeof v !== 'string') {
       varValue = actualKeyValues[v.name]
 
-      if (!varValue && v.isRequired) {
-        console.error('❗️ Expected a variable in .env named:', v.name)
-        console.error('Envoy could not successfully create your env.ts file.')
-        console.error()
-        process.exit(1)
+      if (varValue === undefined && v.isRequired) {
+        return failOnMissing(v.name)
       }
 
       if (v.validator && !v.validator(varValue)) {
@@ -85,6 +91,9 @@ async function generate() {
       }
     } else {
       varValue = actualKeyValues[varName]
+      if (varValue === undefined) {
+        return failOnMissing(varName)
+      }
     }
 
     let value = varValue ? `"${varValue}"` : undefined

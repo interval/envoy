@@ -1,4 +1,6 @@
-module.exports = [
+import { EnvoyVariableSpec } from '../'
+
+const vars: EnvoyVariableSpec[] = [
   {
     name: 'STRIPE_KEY',
     validator: (value) => value.includes('sk_'),
@@ -6,6 +8,8 @@ module.exports = [
   'OTHER_API_KEY',
   {
     name: 'AN_OPTIONAL_KEY',
-    isOptional: true,
+    isRequired: false,
   },
 ]
+
+export default vars
