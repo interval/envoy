@@ -1,8 +1,8 @@
 # 🚛 Envoy
 
-![How Envoy works](docs/about.png)
-
 Envoy gives your TypeScript apps type safe access to environment variables.
+
+![How Envoy works](docs/about.png)
 
 Envoy accepts an `envoy.config.ts` file and an `.env` file as input and generates a single `env.ts` file which exports a constant for each variable as output.
 
